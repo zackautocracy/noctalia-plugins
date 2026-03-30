@@ -1,0 +1,26 @@
+{
+  "id": "niri-workspace-manager",
+  "name": "Niri Workspace Manager",
+  "version": "0.1.0",
+  "minNoctaliaVersion": "4.0.0",
+  "author": "zackautocracy",
+  "license": "MIT",
+  "repository": "https://github.com/zackautocracy/niri-workspace-manager",
+  "description": "Workspace management panel for Niri - rename, move, reorder, and persist workspace layouts",
+  "tags": ["Bar", "Workspace", "Niri"],
+  "entryPoints": {
+    "main": "Main.qml",
+    "barWidget": "BarWidget.qml",
+    "panel": "Panel.qml",
+    "settings": "Settings.qml"
+  },
+  "dependencies": { "plugins": [] },
+  "metadata": {
+    "defaultSettings": {
+      "restoreOnStartup": true,
+      "autoAssign": false,
+      "startupProfile": "Default",
+      "outputAliases": {}
+    }
+  }
+}
