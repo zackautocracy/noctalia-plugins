@@ -52,6 +52,11 @@ Item {
     // --- Auto-detected output display names ---
     property var detectedOutputNames: ({})
 
+    function outputDisplayName(connector) {
+        var userAliases = settings.outputAliases ?? {}
+        return userAliases[connector] || detectedOutputNames[connector] || connector
+    }
+
     Process {
         id: outputInfoProc
         command: ["niri", "msg", "-j", "outputs"]
@@ -296,7 +301,8 @@ Item {
             } else {
                 var parts = []
                 for (var out in outputChanges) {
-                    parts.push(outputChanges[out] + " on " + out)
+                    var count = outputChanges[out]
+                    parts.push(count + (count === 1 ? " workspace" : " workspaces") + " on " + root.outputDisplayName(out))
                 }
                 description = "Restored profile \"" + profileName + "\": " + parts.join(", ")
             }
@@ -398,6 +404,28 @@ Item {
             if (!root.ready) return
             var names = persistence.listProfileNames()
             Logger.i("NiriWSM", "Profiles:", JSON.stringify(names))
+        }
+
+        function nextProfile() {
+            if (!root.ready) return
+            var names = persistence.listProfileNames()
+            if (names.length < 2) return
+            var idx = names.indexOf(persistence.activeProfile)
+            var next = names[(idx + 1) % names.length]
+            if (persistence.switchProfile(next)) {
+                root.restoreLayout()
+            }
+        }
+
+        function previousProfile() {
+            if (!root.ready) return
+            var names = persistence.listProfileNames()
+            if (names.length < 2) return
+            var idx = names.indexOf(persistence.activeProfile)
+            var prev = names[(idx - 1 + names.length) % names.length]
+            if (persistence.switchProfile(prev)) {
+                root.restoreLayout()
+            }
         }
     }
 }

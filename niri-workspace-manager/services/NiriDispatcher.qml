@@ -131,6 +131,11 @@ Item {
         enqueue(["focus-window", "--id", String(windowId)])
     }
 
+    function focusWorkspace(outputName, workspaceIndex) {
+        enqueue(["focus-monitor", String(outputName)])
+        enqueue(["focus-workspace", String(workspaceIndex)])
+    }
+
     // --- Helpers ---
 
     function refByIndex(index) {
